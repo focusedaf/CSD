@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shoot and Center Divs!</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", sans-serif;
+        background-color: lightgray;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .centered-div {
+        width: 100px;
+        height: 100px;
+        background-color: lightblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: darkblue;
+        border-radius: 10px;
+        position: absolute;
+        cursor: pointer;
+      }
+
+      .method {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 18px;
+        color: darkred;
+      }
+
+      .method h2 {
+        font-size: 24px;
+        color: purple;
+      }
+
+      .create-button,
+      .toggle-button,
+      .back-button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: purple;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+      }
+
+      .create-button:hover,
+      .toggle-button:hover,
+      .back-button:hover {
+        background-color: darkviolet;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Click to Create and Shoot Divs!</h1>
+
+    <button class="create-button" onclick="createDiv()">
+      Create a New Div
+    </button>
+
+    <button class="toggle-button" onclick="toggleMovement()">
+      Start Movement
+    </button>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+      Back
+    </button>
+
+    <div class="method">
+      <h2>Method: Shoot the Div to Center</h2>
+      <p>Click on a div to shoot it toward the center of the screen!</p>
+    </div>
+
+    <script>
+      let divs = [];
+      let movementIntervals = [];
+      let isMoving = false;
+
+      function createDiv() {
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("centered-div");
+
+        newDiv.innerText = "I'm a Div!";
+        document.body.appendChild(newDiv);
+
+        setRandomPosition(newDiv);
+
+        divs.push(newDiv);
+
+        newDiv.addEventListener("click", () => shootToCenter(newDiv));
+      }
+
+      function setRandomPosition(div) {
+        const randomX = Math.random() * (window.innerWidth - 100);
+        const randomY = Math.random() * (window.innerHeight - 100);
+        div.style.left = `${randomX}px`;
+        div.style.top = `${randomY}px`;
+      }
+
+      function startRandomMovement() {
+        divs.forEach((div) => {
+          let directionX = Math.random() > 0.5 ? 1 : -1;
+          let directionY = Math.random() > 0.5 ? 1 : -1;
+
+          const interval = setInterval(() => {
+            const currentX = parseFloat(div.style.left);
+            const currentY = parseFloat(div.style.top);
+
+            div.style.left = `${currentX + directionX * 2}px`;
+            div.style.top = `${currentY + directionY * 2}px`;
+
+            if (currentX <= 0 || currentX >= window.innerWidth - 100) {
+              directionX *= -1;
+            }
+            if (currentY <= 0 || currentY >= window.innerHeight - 100) {
+              directionY *= -1;
+            }
+          }, 50);
+
+          movementIntervals.push(interval);
+        });
+      }
+
+      function shootToCenter(div) {
+        const centerX = window.innerWidth / 2 - div.offsetWidth / 2;
+        const centerY = window.innerHeight / 2 - div.offsetHeight / 2;
+
+        div.style.transition = "all 2s ease-out";
+        div.style.left = `${centerX}px`;
+        div.style.top = `${centerY}px`;
+
+        div.style.transition = "none";
+      }
+
+      function stopMovement() {
+        movementIntervals.forEach((interval) => clearInterval(interval));
+
+        movementIntervals = [];
+      }
+
+      function toggleMovement() {
+        if (isMoving) {
+          stopMovement();
+          document.querySelector(".toggle-button").innerText = "Start Movement";
+        } else {
+          startRandomMovement();
+          document.querySelector(".toggle-button").innerText = "Stop Movement";
+        }
+        isMoving = !isMoving;
+      }
+    </script>
+  </body>
+</html>

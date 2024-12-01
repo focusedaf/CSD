@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale: 1.0" />
+    <title>Chill Guy Energy Quiz</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        flex-direction: row;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      /* Chill Guy Image */
+      .chill-guy {
+        width: 200px;
+        height: 300px;
+        background-image: url("chillguy.jpg");
+        background-size: cover;
+        background-position: center;
+        margin-right: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: none; /* Initially hidden */
+      }
+
+      .quiz-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 30px;
+        background-color: #ddd;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .progress-bar-inner {
+        height: 100%;
+        width: 0%; /* Initially 0% width (empty) */
+        background-color: #4caf50;
+        border-radius: 10px;
+        transition: width 0.5s ease;
+      }
+
+      .question {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .option-button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: purple;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin: 5px 0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .option-button:hover {
+        background-color: darkviolet;
+      }
+
+      .back-button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: purple;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-top: 30px;
+        cursor: pointer;
+      }
+
+      .back-button:hover {
+        background-color: darkviolet;
+      }
+
+      .result {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .energy-level {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .emoji {
+        font-size: 48px;
+        margin-top: 20px;
+        transition: opacity 0.5s ease;
+      }
+
+      .comforting-message {
+        font-size: 18px;
+        color: #888;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="chill-guy" id="chillGuy"></div>
+
+      <div class="quiz-section">
+        <h1>Chill Guy's Energy Quiz</h1>
+
+        <div class="progress-bar">
+          <div class="progress-bar-inner" id="progressBar"></div>
+        </div>
+
+        <div id="emoji" class="emoji">😞</div>
+
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+
+        <div class="energy-level" id="energyLevel">Energy: 0%</div>
+
+        <div id="comfortMessage" class="comforting-message"></div>
+
+        <button class="back-button" onclick="goBack()">Back</button>
+
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What is the main source of energy for the Earth?",
+          options: ["The Sun", "Wind", "Oil", "Coal"],
+          correctAnswer: 0,
+        },
+        {
+          question: "Which of the following is a renewable energy source?",
+          options: ["Coal", "Solar", "Gas", "Oil"],
+          correctAnswer: 1,
+        },
+        {
+          question: "What energy does the human body primarily use?",
+          options: ["Electrical", "Chemical", "Solar", "Kinetic"],
+          correctAnswer: 1,
+        },
+        {
+          question: "Which of these is an example of potential energy?",
+          options: [
+            "A moving car",
+            "A compressed spring",
+            "A flying bird",
+            "A flowing river",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          question: "What is the main process by which plants produce energy?",
+          options: ["Photosynthesis", "Respiration", "Combustion", "Digestion"],
+          correctAnswer: 0,
+        },
+        {
+          question: "What type of energy is stored in food?",
+          options: [
+            "Chemical Energy",
+            "Kinetic Energy",
+            "Thermal Energy",
+            "Electrical Energy",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "Which of these is the most efficient form of energy?",
+          options: ["Electricity", "Heat", "Mechanical", "Nuclear"],
+          correctAnswer: 3,
+        },
+        {
+          question:
+            "Which energy source is primarily used for heating buildings?",
+          options: ["Natural Gas", "Solar", "Hydropower", "Wind"],
+          correctAnswer: 0,
+        },
+        {
+          question:
+            "What is the energy stored in the nucleus of an atom called?",
+          options: [
+            "Kinetic Energy",
+            "Potential Energy",
+            "Nuclear Energy",
+            "Mechanical Energy",
+          ],
+          correctAnswer: 2,
+        },
+        {
+          question: "How is energy measured in food?",
+          options: ["Joules", "Calories", "Watts", "Volts"],
+          correctAnswer: 1,
+        },
+        {
+          question: "Which of these is a non-renewable energy source?",
+          options: ["Wind", "Solar", "Natural Gas", "Geothermal"],
+          correctAnswer: 2,
+        },
+        {
+          question:
+            "Which of the following is an example of mechanical energy?",
+          options: [
+            "A stretched rubber band",
+            "A moving car",
+            "A hot cup of tea",
+            "A glowing light bulb",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          question: "Which energy source is known for being the cleanest?",
+          options: ["Wind", "Coal", "Oil", "Nuclear"],
+          correctAnswer: 0,
+        },
+        {
+          question: "Which of these is a fossil fuel?",
+          options: ["Wind", "Solar", "Natural Gas", "Geothermal"],
+          correctAnswer: 2,
+        },
+        {
+          question: "What kind of energy is released by burning wood?",
+          options: [
+            "Chemical Energy",
+            "Thermal Energy",
+            "Kinetic Energy",
+            "Electrical Energy",
+          ],
+          correctAnswer: 1,
+        },
+        {
+          question: "Which of the following is a form of stored energy?",
+          options: [
+            "Mechanical Energy",
+            "Potential Energy",
+            "Heat",
+            "Electrical Energy",
+          ],
+          correctAnswer: 1,
+        },
+      ];
+
+      let currentQuestion = 0;
+      let energy = 0;
+      const progressBar = document.getElementById("progressBar");
+      const energyLevelText = document.getElementById("energyLevel");
+      const questionText = document.getElementById("questionText");
+      const optionsContainer = document.getElementById("optionsContainer");
+      const resultText = document.getElementById("result");
+      const emoji = document.getElementById("emoji");
+      const chillGuy = document.getElementById("chillGuy");
+      const comfortingMessage = document.getElementById("comfortMessage");
+
+      const emojis = ["😞", "😐", "🙂", "😊", "😁", "🥳"];
+
+      loadQuestion();
+
+      function loadQuestion() {
+        if (currentQuestion < questions.length) {
+          const question = questions[currentQuestion];
+          questionText.innerText = question.question;
+          optionsContainer.innerHTML = "";
+
+          question.options.forEach((option, index) => {
+            const button = document.createElement("button");
+            button.innerText = option;
+            button.classList.add("option-button");
+            button.onclick = () => checkAnswer(index);
+            optionsContainer.appendChild(button);
+          });
+          comfortingMessage.innerText = "";
+        } else {
+          endQuiz();
+        }
+      }
+
+      function checkAnswer(selectedAnswer) {
+        const question = questions[currentQuestion];
+        const correct = selectedAnswer === question.correctAnswer;
+
+        if (correct) {
+          energy += 10;
+          chillGuy.style.display = "block";
+          comfortingMessage.innerText = "";
+        } else {
+          comfortingMessage.innerText = "No worries, try again! You got this!";
+          chillGuy.style.display = "none";
+          energy -= 5;
+        }
+
+        progressBar.style.width = `${energy}%`;
+
+        energyLevelText.innerText = `Energy: ${energy}%`;
+
+        let emojiIndex = Math.floor(energy / 20);
+        emoji.innerText = emojis[emojiIndex];
+
+        currentQuestion++;
+        loadQuestion();
+      }
+
+      function endQuiz() {
+        resultText.innerText = "Quiz Over! Well Done!";
+      }
+
+      function goBack() {
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

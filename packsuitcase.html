@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pack A Suitcase - The Worst Experience</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", sans-serif;
+        background-color: yellow;
+        color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        flex-direction: column;
+      }
+
+      .items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .item {
+        margin: 5px;
+        padding: 20px;
+        background-color: pink;
+        color: black;
+        font-size: 18px;
+        border: 2px dashed green;
+        cursor: pointer;
+        animation: bounce 0.5s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .suitcase {
+        position: relative;
+        margin-top: 30px;
+        width: 350px;
+        height: 250px;
+        border: 5px double purple;
+        background-color: lightblue;
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+        animation: spin 10s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .suitcase-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #4caf50;
+        height: 0;
+        transition: height 0.5s;
+      }
+
+      #meme-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 0, 0, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 50px;
+        text-align: center;
+        z-index: 9999;
+        font-family: "Comic Sans MS", sans-serif;
+        animation: flash 1s infinite;
+      }
+
+      @keyframes flash {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      #suitcase-image {
+        width: 100%;
+        max-width: 800px;
+        max-height: 600px;
+      }
+
+      .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .buttons-container .item {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pack Your Suitcase! (In the Worst Way Possible)</h1>
+    <div class="items">
+      <button class="item" onclick="packItem('Shirt')">Shirt</button>
+      <button class="item" onclick="packItem('Banana')">Banana</button>
+      <button class="item" onclick="packItem('Cactus')">Cactus</button>
+      <button class="item" onclick="packItem('Shoes')">Shoes</button>
+      <button class="item" onclick="packItem('Pillow')">Pillow</button>
+    </div>
+
+    <div class="suitcase" id="suitcase">
+      <div class="suitcase-content" id="suitcase-content"></div>
+    </div>
+
+    <div class="buttons-container">
+      <button class="item" onclick="unpackItems()">Unpack</button>
+      <button class="item" onclick="window.location.href='index.html'">
+        Back
+      </button>
+    </div>
+
+    <div id="meme-overlay">
+      <h2>You Packed Your Suitcase! 🎉</h2>
+      <p>Now enjoy your meme</p>
+      <img src="suitcase.png" id="suitcase-image" />
+    </div>
+
+    <script>
+      let packedItems = [];
+      const allItems = ["Shirt", "Banana", "Cactus", "Shoes", "Pillow"];
+      const suitcaseContent = document.getElementById("suitcase-content");
+      const memeOverlay = document.getElementById("meme-overlay");
+      const suitcaseImage = document.getElementById("suitcase-image");
+
+      const TOTAL_ITEMS = allItems.length;
+
+      function packItem(item) {
+        if (!packedItems.includes(item)) {
+          packedItems.push(item);
+
+          const fillHeight = (packedItems.length / TOTAL_ITEMS) * 100;
+          suitcaseContent.style.height = fillHeight + "%";
+
+          if (packedItems.length === TOTAL_ITEMS) {
+            showMeme();
+          }
+        }
+      }
+
+      function unpackItems() {
+        packedItems = [];
+        suitcaseContent.style.height = "0%";
+        memeOverlay.style.display = "none";
+        document.getElementById("suitcase").style.animation = "none";
+        document.getElementById("suitcase").offsetHeight;
+        document.getElementById("suitcase").style.animation =
+          "spin 10s linear infinite";
+      }
+
+      function showMeme() {
+        memeOverlay.style.display = "flex";
+
+        setTimeout(() => {
+          memeOverlay.style.display = "none";
+        }, 15000);
+      }
+    </script>
+  </body>
+</html>
