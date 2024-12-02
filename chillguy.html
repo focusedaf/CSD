@@ -25,7 +25,7 @@
         max-width: 1200px;
       }
 
-      /* Chill Guy Image */
+     
       .chill-guy {
         width: 200px;
         height: 300px;
@@ -34,7 +34,7 @@
         background-position: center;
         margin-right: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: none; /* Initially hidden */
+        display: none; 
       }
 
       .quiz-section {
@@ -63,7 +63,7 @@
 
       .progress-bar-inner {
         height: 100%;
-        width: 0%; /* Initially 0% width (empty) */
+        width: 0%; 
         background-color: #4caf50;
         border-radius: 10px;
         transition: width 0.5s ease;
@@ -182,12 +182,7 @@
         },
         {
           question: "Which of these is an example of potential energy?",
-          options: [
-            "A moving car",
-            "A compressed spring",
-            "A flying bird",
-            "A flowing river",
-          ],
+          options: ["A moving car", "A compressed spring", "A flying bird", "A flowing river"],
           correctAnswer: 1,
         },
         {
@@ -197,12 +192,7 @@
         },
         {
           question: "What type of energy is stored in food?",
-          options: [
-            "Chemical Energy",
-            "Kinetic Energy",
-            "Thermal Energy",
-            "Electrical Energy",
-          ],
+          options: ["Chemical Energy", "Kinetic Energy", "Thermal Energy", "Electrical Energy"],
           correctAnswer: 0,
         },
         {
@@ -211,20 +201,13 @@
           correctAnswer: 3,
         },
         {
-          question:
-            "Which energy source is primarily used for heating buildings?",
+          question: "Which energy source is primarily used for heating buildings?",
           options: ["Natural Gas", "Solar", "Hydropower", "Wind"],
           correctAnswer: 0,
         },
         {
-          question:
-            "What is the energy stored in the nucleus of an atom called?",
-          options: [
-            "Kinetic Energy",
-            "Potential Energy",
-            "Nuclear Energy",
-            "Mechanical Energy",
-          ],
+          question: "What is the energy stored in the nucleus of an atom called?",
+          options: ["Kinetic Energy", "Potential Energy", "Nuclear Energy", "Mechanical Energy"],
           correctAnswer: 2,
         },
         {
@@ -238,14 +221,8 @@
           correctAnswer: 2,
         },
         {
-          question:
-            "Which of the following is an example of mechanical energy?",
-          options: [
-            "A stretched rubber band",
-            "A moving car",
-            "A hot cup of tea",
-            "A glowing light bulb",
-          ],
+          question: "Which of the following is an example of mechanical energy?",
+          options: ["A stretched rubber band", "A moving car", "A hot cup of tea", "A glowing light bulb"],
           correctAnswer: 1,
         },
         {
@@ -260,22 +237,12 @@
         },
         {
           question: "What kind of energy is released by burning wood?",
-          options: [
-            "Chemical Energy",
-            "Thermal Energy",
-            "Kinetic Energy",
-            "Electrical Energy",
-          ],
+          options: ["Chemical Energy", "Thermal Energy", "Kinetic Energy", "Electrical Energy"],
           correctAnswer: 1,
         },
         {
           question: "Which of the following is a form of stored energy?",
-          options: [
-            "Mechanical Energy",
-            "Potential Energy",
-            "Heat",
-            "Electrical Energy",
-          ],
+          options: ["Mechanical Energy", "Potential Energy", "Heat", "Electrical Energy"],
           correctAnswer: 1,
         },
       ];
@@ -293,6 +260,7 @@
 
       const emojis = ["😞", "😐", "🙂", "😊", "😁", "🥳"];
 
+      
       loadQuestion();
 
       function loadQuestion() {
@@ -319,22 +287,26 @@
         const correct = selectedAnswer === question.correctAnswer;
 
         if (correct) {
-          energy += 10;
-          chillGuy.style.display = "block";
-          comfortingMessage.innerText = "";
+          energy += 10; 
+          chillGuy.style.display = "block"; 
+          comfortingMessage.innerText = ""; 
         } else {
           comfortingMessage.innerText = "No worries, try again! You got this!";
-          chillGuy.style.display = "none";
+          chillGuy.style.display = "none"; 
           energy -= 5;
         }
 
+        
         progressBar.style.width = `${energy}%`;
 
+       
         energyLevelText.innerText = `Energy: ${energy}%`;
 
+      
         let emojiIndex = Math.floor(energy / 20);
         emoji.innerText = emojis[emojiIndex];
 
+       
         currentQuestion++;
         loadQuestion();
       }
@@ -344,7 +316,7 @@
       }
 
       function goBack() {
-        window.location.href = "index.html";
+        window.location.href = "index.html"; 
       }
     </script>
   </body>
